@@ -46,36 +46,32 @@ class AppliedConditionsController extends Controller
 
                     if ($res[$array['field']] == $array['value']) {
 
-                        
+
                         foreach ($results as $value_result) {
 
                             $res_resultat = get_object_vars($value_result);
 
-                            $test2 = $this->test($columns, $res_resultat['field']);
-
+                            $test_field = $this->test($columns, $res_resultat['field']);
+                            // testing if the condtion numder match with the result number 
                             if (($res_resultat['condition_number'] == $array['number'])) {
 
-                                if (($test2 == 'ok')) {
+                                if (($test_field == 'ok')) {
 
-                                  
 
-                                    if ($res['id'] != $default_value ) {
-                                    
+
+                                    if ($res['id'] != $default_value) {
+                                        // here test if the difference between the id and the default value is different from the current id to insert 
                                         if (($res['id'] - $default_value) != $res['id']) {
 
                                             array_push($current_table2, $results_applied);
                                             array_push($finale_array, $current_table2);
-                                            
+
                                             $current_table2 = [];
                                             $results_applied = [];
                                             $default_value = $res['id'];
                                         }
                                         $current_table2 = [$res, $res['id']];
-
-                                      
-                                       
-                                       
-                                    } 
+                                    }
 
                                     $current_result = [$res_resultat['field'], $res[$res_resultat['field']]];
 
@@ -89,43 +85,25 @@ class AppliedConditionsController extends Controller
                                     }
                                     $current_result[4] = $array['number'];
                                     array_push($results_applied, $current_result);
-                                   // array_push($current_table2, $results_applied);
-
-                                    /* $current_table2 = [$res,$res['id'], $res_resultat['field'], $res[$res_resultat['field']]];
-
-                                    if ($res_resultat['value'] == $res[$res_resultat['field']]) {
-
-                                        $current_table2[4] = 'true';
-                                        $current_table2[5] = $res_resultat['value'];
-
-                                    } else {
-                                        $current_table2[4] = 'false';
-                                        $current_table2[5] = $res_resultat['value'];
-                                    }
-                                    $current_table2[6] = $array['number'];  
-                                    
-                                    array_push($finale_array, $current_table2);*/
                                 }
                             }
-                            
                         }
-                       
                     }
                 }
             }
             $default_value = $res['id'];
         }
 
-    //
-    array_push($current_table2, $results_applied);
-    array_push($finale_array, $current_table2);
-   // dd($results_applied);
-        dd($finale_array);
+
+        array_push($current_table2, $results_applied);
+        array_push($finale_array, $current_table2);
+
+        //  dd($finale_array);
 
 
         return view('Appliedconditions', ['imports' => $finale_array, 'columns' => $columns]);
     }
-    public function test($columns, $field)   // fucntion who tests the condition existance in our file
+    public function test($columns, $field)   // testig condition existance 
     {
         $check_field = 'not ok';
         foreach ($columns as $key => $value) {
@@ -135,16 +113,5 @@ class AppliedConditionsController extends Controller
             }
         }
         return $check_field;
-    }
-    public function check_unicity($array, $id)  // 
-    {
-
-        $result = 1;
-        
-            if ($array[1] == $id) {
-                $result = 0;
-            }
-        
-        return $result;
     }
 }
