@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ImportController;
-
+use App\Http\Controllers\AppliedCOnditionsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,3 +22,7 @@ Route::get('/import', function () {
     return view('import');
 });
 Route::post('import',[ImportController::class, 'import'])->name('import');
+///Route::get('/selectedimports', function () {
+  //  return view('Appliedconditions');
+//);
+Route::get('selectedimports',[AppliedConditionsController::class, 'condtions_applied'])->name('selectedimports');
